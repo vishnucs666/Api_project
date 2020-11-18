@@ -30,6 +30,7 @@ RSpec.describe "POST /login", type: :request do
 
 		it 'returns valid JWT token' do
 			token_from_request = response.headers['Authorization'].split(' ').last
+		  AUTH = token_from_request
 			decoded_token = JWT.decode(token_from_request, Rails.application.credentials.dig(:jwt_token), true)
 			expect(decoded_token.first['sub']).to be_present
 		end
@@ -49,14 +50,19 @@ end
 RSpec.describe Api::ArticlesController, type: :controller do
 
 	render_views
+	# include '/spec/api_helper'
+  let(:url) {'/api/articles'}
 	let(:article) {FactoryBot.create_list(:article, 10)}
+	let(:decoded_token) {JWT.decode(AUTH, Rails.application.credentials.dig(:jwt_token), true)}
 
 	it 'returns all articles' do
-		get :index, format: :json
+		get :index, as: :json
+		request.headers["Authorization"] = AUTH
 		expect(JSON.parse(response.body).size).to eq(1)
 	end	
 
 	it 'returns status code 200' do
+		request.headers["Authorization"] = AUTH
 		expect(response).to have_http_status(:success)
 	end
 

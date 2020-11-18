@@ -8,4 +8,9 @@ FactoryBot.define do
 		association :article, factory: :article
 		comment {Faker::Lorem.sentence}
 	end
+
+	factory :user, class: User do
+		email {Faker::Internet.email}
+		password {Faker::Alphanumeric.alpha(number: 10)}
+	end
 end
