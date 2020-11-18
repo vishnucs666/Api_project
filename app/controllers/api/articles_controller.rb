@@ -1,6 +1,6 @@
 class Api::ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :update, :destroy, :create_comments]
-  before_action :authenticate_user!
+  before_action :set_article, only: [:show, :update, :destroy, :create_comment]
+  # before_action :authenticate_user!
   # GET /articles
   def index
     @articles = Article.all
