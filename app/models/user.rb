@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   #validations
   # validates :username, uniqueness: {case_sensitive: false}
+  validates_presence_of :password, :email
 
   #call backs       
   # before_create :generate_auth_token
